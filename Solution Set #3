@@ -1,0 +1,12 @@
+with customer_min_date as (
+  select customer_id, min(date) min_date
+  from customer_purchases
+  group by customer_id
+)
+
+select date, count(distinct customer_id) num_new_customers
+from customer_purchases
+join customer_min_date using(customer_id)
+where date = min_date
+group by date
+order by date
